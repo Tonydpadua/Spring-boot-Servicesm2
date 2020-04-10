@@ -1,5 +1,6 @@
 package com.tonydpadua.estado;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tonydpadua.cidade.Cidade;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Estado implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @JsonBackReference
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
 

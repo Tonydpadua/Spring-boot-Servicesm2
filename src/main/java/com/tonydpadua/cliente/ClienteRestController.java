@@ -1,4 +1,4 @@
-package com.tonydpadua.categoria;
+package com.tonydpadua.cliente;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaRestController {
+@RequestMapping(value = "/clientes")
+public class ClienteRestController {
 
-    private CategoriaService categoriaService;
+    private ClienteService clienteService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Categoria> findById(@PathVariable Long id){
-        Categoria obj = categoriaService.findById(id);
+    public ResponseEntity<Cliente> findById(@PathVariable Long id){
+        Cliente obj = clienteService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-
-
 }
