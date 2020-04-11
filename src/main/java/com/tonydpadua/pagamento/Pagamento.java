@@ -1,11 +1,13 @@
 package com.tonydpadua.pagamento;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tonydpadua.pedido.Pedido;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
+
 @NoArgsConstructor
 @Data
 @Entity
@@ -17,6 +19,8 @@ public abstract class Pagamento implements Serializable {
 
     private Long id;
     private Integer estadoPagamento;
+
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="pedido_id")
     @MapsId
@@ -37,4 +41,16 @@ public abstract class Pagamento implements Serializable {
         this.estadoPagamento=estadoPagamento.getCod();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pagamento pagamento = (Pagamento) o;
+        return id.equals(pagamento.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

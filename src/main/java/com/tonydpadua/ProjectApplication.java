@@ -11,6 +11,8 @@ import com.tonydpadua.endereco.Endereco;
 import com.tonydpadua.endereco.EnderecoRepository;
 import com.tonydpadua.estado.Estado;
 import com.tonydpadua.estado.EstadoRepository;
+import com.tonydpadua.itempedido.ItemPedido;
+import com.tonydpadua.itempedido.ItemPedidoRepository;
 import com.tonydpadua.pagamento.*;
 import com.tonydpadua.pedido.Pedido;
 import com.tonydpadua.pedido.PedidoRepository;
@@ -44,6 +46,8 @@ public class ProjectApplication implements CommandLineRunner {
 
     private PagamentoRepository pagamentoRepository;
 
+    private ItemPedidoRepository itemPedidoRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ProjectApplication.class, args);
     }
@@ -67,6 +71,7 @@ public class ProjectApplication implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(c1,c2));
         produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
 
+
         Estado e1 = new Estado(null,"Minas Gerais");
         Estado e2 = new Estado(null,"Paraíba");
 
@@ -80,6 +85,7 @@ public class ProjectApplication implements CommandLineRunner {
         estadoRepository.saveAll(Arrays.asList(e1,e2));
         cidadeRepository.saveAll(Arrays.asList(ci1,ci2,ci3));
 
+
         Cliente cl1 = new Cliente(null,"Maria","maria@gmail.com","5345696", TipoCliente.PESSOAFISICA);
         cl1.getTelefones().addAll(Arrays.asList("34234235","233245"));
 
@@ -90,6 +96,7 @@ public class ProjectApplication implements CommandLineRunner {
 
         clienteRepository.save(cl1);
         enderecoRepository.saveAll(Arrays.asList(en1,en2));
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -106,6 +113,20 @@ public class ProjectApplication implements CommandLineRunner {
 
         pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
         pagamentoRepository.saveAll(Arrays.asList(pa1,pa2));
+
+
+        ItemPedido ip1 = new ItemPedido(ped1,p1,0.00,1,2000.00);
+        ItemPedido ip2 = new ItemPedido(ped1,p3,0.00,2,80.00);
+        ItemPedido ip3 = new ItemPedido(ped2,p2,100.00,1,800.00);
+
+        ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+        ped2.getItens().add(ip3);
+
+        p1.getItens().add(ip1);
+        p2.getItens().add(ip3);
+        p3.getItens().add(ip2);
+
+        itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 
 
     }
