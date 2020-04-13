@@ -40,7 +40,7 @@ public class CategoriaService {
         catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Não é possivel excluir uma categoria com produtos");
         }
-        }
+    }
 
     public Categoria update(Long id,Categoria obj){
         try{

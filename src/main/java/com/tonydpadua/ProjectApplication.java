@@ -4,7 +4,6 @@ import com.tonydpadua.categoria.Categoria;
 import com.tonydpadua.categoria.CategoriaRepository;
 import com.tonydpadua.cidade.Cidade;
 import com.tonydpadua.cidade.CidadeRepository;
-import com.tonydpadua.cliente.Cliente;
 import com.tonydpadua.cliente.ClienteRepository;
 import com.tonydpadua.cliente.TipoCliente;
 import com.tonydpadua.endereco.Endereco;
@@ -86,7 +85,7 @@ public class ProjectApplication implements CommandLineRunner {
         cidadeRepository.saveAll(Arrays.asList(ci1,ci2,ci3));
 
 
-        Cliente cl1 = new Cliente(null,"Maria","maria@gmail.com","5345696", TipoCliente.PESSOAFISICA);
+        com.tonydpadua.cliente.Cliente cl1 = new com.tonydpadua.cliente.Cliente(null,"Maria","maria@gmail.com","5345696", TipoCliente.PESSOAFISICA);
         cl1.getTelefones().addAll(Arrays.asList("34234235","233245"));
 
         Endereco en1 = new Endereco(null,"Avenida Beira Rio","300","Apto 200","Jardim","23454857",cl1,ci2);

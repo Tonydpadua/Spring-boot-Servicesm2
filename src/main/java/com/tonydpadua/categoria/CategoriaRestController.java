@@ -42,7 +42,7 @@ public class CategoriaRestController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO objdto,@PathVariable Long id){
+    public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO objdto, @PathVariable Long id){
         Categoria obj = categoriaService.fromDTO(objdto);
         obj = categoriaService.update(id,obj);
         return ResponseEntity.ok().body(obj);
