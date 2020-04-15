@@ -1,6 +1,7 @@
 package com.tonydpadua.pagamento;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.tonydpadua.pedido.Pedido;
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
     private static final long serialVersionUID=1L;
 

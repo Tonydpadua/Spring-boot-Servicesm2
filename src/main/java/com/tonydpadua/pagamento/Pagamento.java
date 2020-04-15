@@ -1,6 +1,7 @@
 package com.tonydpadua.pagamento;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.tonydpadua.pedido.Pedido;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -27,9 +29,10 @@ public abstract class Pagamento implements Serializable {
     private Pedido pedido;
 
 
+
     public Pagamento(Long id, EstadoPagamento estadoPagamento, Pedido pedido) {
         this.id = id;
-        this.estadoPagamento = estadoPagamento.getCod();
+        this.estadoPagamento =(estadoPagamento==null)?null: estadoPagamento.getCod();
         this.pedido = pedido;
     }
 

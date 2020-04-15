@@ -1,10 +1,15 @@
 package com.tonydpadua.cliente;
 
+import com.tonydpadua.categoria.Categoria;
+import com.tonydpadua.categoria.CategoriaDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +55,15 @@ public class ClienteRestController {
         List<Cliente> list = clienteService.findAll();
         List<ClienteDTO> listDTO = list.stream().map(obj->new ClienteDTO(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> save(@Valid @RequestBody ClienteNewDTO objDTO){
+        Cliente obj = clienteService.fromDTO(objDTO);
+        obj = clienteService.save(obj);
+        URI uri = ServletUriComponentsBuilder.
+                fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 }

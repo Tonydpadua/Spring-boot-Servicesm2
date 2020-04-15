@@ -55,20 +55,48 @@ public class ProjectApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Categoria c1 = new Categoria(null,"Informática");
         Categoria c2 = new Categoria(null,"Escritório");
+        Categoria c3 = new Categoria(null,"Cama mesa e banho");
+        Categoria c4 = new Categoria(null,"Eletrônicos");
+        Categoria c5 = new Categoria(null,"Jardinagem");
+        Categoria c6 = new Categoria(null,"Decoração");
+        Categoria c7 = new Categoria(null,"Perfumaria");
 
-        Produto p1 = new Produto(null,"Computador",2000);
-        Produto p2 = new Produto(null,"Cadeira",800);
-        Produto p3 = new Produto(null,"Impressora",2000);
+        Produto p1 = new Produto(null, "Computador", 2000.00);
+        Produto p2 = new Produto(null, "Impressora", 800.00);
+        Produto p3 = new Produto(null, "Mouse", 80.00);
+        Produto p4 = new Produto(null, "Mesa de escritório", 300.00);
+        Produto p5 = new Produto(null, "Toalha", 50.00);
+        Produto p6 = new Produto(null, "Colcha", 200.00);
+        Produto p7 = new Produto(null, "TV true color", 1200.00);
+        Produto p8 = new Produto(null, "Roçadeira", 800.00);
+        Produto p9 = new Produto(null, "Abajour", 100.00);
+        Produto p10 = new Produto(null, "Pendente", 180.00);
+        Produto p11 = new Produto(null, "Shampoo", 90.00);
+
 
         c1.getProdutos().addAll((Arrays.asList(p1,p2,p3)));
-        c2.getProdutos().add(p2);
+        c2.getProdutos().addAll((Arrays.asList(p2,p4)));
+        c3.getProdutos().addAll(Arrays.asList(p5, p6));
+        c4.getProdutos().addAll(Arrays.asList(p1, p2, p3, p7));
+        c5.getProdutos().addAll(Arrays.asList(p8));
+        c6.getProdutos().addAll(Arrays.asList(p9, p10));
+        c7.getProdutos().addAll(Arrays.asList(p11));
+
 
         p1.getCategorias().add(c1);
-        p2.getCategorias().addAll(Arrays.asList(c1,c2));
+        p2.getCategorias().addAll(Arrays.asList(c1,c2,c4));
         p3.getCategorias().add(c1);
+        p4.getCategorias().addAll(Arrays.asList(c2));
+        p5.getCategorias().addAll(Arrays.asList(c3));
+        p6.getCategorias().addAll(Arrays.asList(c3));
+        p7.getCategorias().addAll(Arrays.asList(c4));
+        p8.getCategorias().addAll(Arrays.asList(c5));
+        p9.getCategorias().addAll(Arrays.asList(c6));
+        p10.getCategorias().addAll(Arrays.asList(c6));
+        p11.getCategorias().addAll(Arrays.asList(c7));
 
-        categoriaRepository.saveAll(Arrays.asList(c1,c2));
-        produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+        categoriaRepository.saveAll(Arrays.asList(c1,c2,c3,c4,c5,c6,c7));
+        produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11));
 
 
         Estado e1 = new Estado(null,"Minas Gerais");

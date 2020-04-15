@@ -1,5 +1,6 @@
 package com.tonydpadua.cliente;
 
+import com.tonydpadua.validation.ClienteUpdate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
+@ClienteUpdate
 public class ClienteDTO {
 
     private Long id;
