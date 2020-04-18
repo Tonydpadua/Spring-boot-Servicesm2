@@ -1,7 +1,5 @@
 package com.tonydpadua.cliente;
 
-import com.tonydpadua.categoria.Categoria;
-import com.tonydpadua.categoria.CategoriaDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

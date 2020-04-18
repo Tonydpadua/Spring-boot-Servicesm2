@@ -1,5 +1,6 @@
 package com.tonydpadua.pedido;
 
+import com.tonydpadua.cliente.ClienteService;
 import com.tonydpadua.exceptions.ObjectNotFoundException;
 import com.tonydpadua.itempedido.ItemPedido;
 import com.tonydpadua.itempedido.ItemPedidoRepository;
@@ -29,6 +30,8 @@ public class PedidoService {
 
     private ItemPedidoRepository itemPedidoRepository;
 
+    private ClienteService clienteService;
+
     public Pedido findById(Long id){
         Optional<Pedido> obj = pedidoRepository.findById(id);
         return obj.orElseThrow(()->new ObjectNotFoundException("Object não encontrado! Id: "+id));
@@ -38,6 +41,7 @@ public class PedidoService {
     public Pedido save(Pedido obj){
         obj.setId(null);
         obj.setInstance(new Date());
+        obj.setCliente(clienteService.findById(obj.getCliente().getId()));
         obj.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
         obj.getPagamento().setPedido(obj);
         if(obj.getPagamento() instanceof PagamentoComBoleto){
@@ -48,10 +52,12 @@ public class PedidoService {
         pagamentoRepository.save(obj.getPagamento());
         for(ItemPedido ip : obj.getItens()){
             ip.setDesconto(0.0);
-            ip.setPreco(produtoService.findById(ip.getProduto().getId()).getPreco());
+            ip.setProduto(produtoService.findById(ip.getProduto().getId()));
+            ip.setPreco(ip.getProduto().getPreco());
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItens());
+        System.out.println(obj);
         return obj;
 
     }
