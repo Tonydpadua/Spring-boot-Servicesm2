@@ -1,6 +1,7 @@
 package com.tonydpadua.pedido;
 
 import com.tonydpadua.cliente.ClienteService;
+import com.tonydpadua.email.EmailService;
 import com.tonydpadua.exceptions.ObjectNotFoundException;
 import com.tonydpadua.itempedido.ItemPedido;
 import com.tonydpadua.itempedido.ItemPedidoRepository;
@@ -32,6 +33,8 @@ public class PedidoService {
 
     private ClienteService clienteService;
 
+    private EmailService emailService;
+
     public Pedido findById(Long id){
         Optional<Pedido> obj = pedidoRepository.findById(id);
         return obj.orElseThrow(()->new ObjectNotFoundException("Object não encontrado! Id: "+id));
@@ -57,7 +60,7 @@ public class PedidoService {
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItens());
-        System.out.println(obj);
+        emailService.sendOrderConfirmationHTMLEmail(obj);
         return obj;
 
     }

@@ -1,5 +1,7 @@
 package com.tonydpadua.config;
 
+import com.tonydpadua.email.EmailService;
+import com.tonydpadua.email.SmptEmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,20 +17,16 @@ public class DevConfig {
 
     private DbService dbService;
 
-    //@Value("${spring.jpa.hibernate.ddl-auto}")
-   // private String strategy;
-
     @Bean
     public boolean instantiateDatabase() throws ParseException {
-/*
-        if(!"create".equals(strategy)){
-            return false;
-        }
 
-
- */
         dbService.instantiateTestDatabase();
 
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmptEmailService();
     }
 }

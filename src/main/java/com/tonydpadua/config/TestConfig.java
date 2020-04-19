@@ -1,5 +1,7 @@
 package com.tonydpadua.config;
 
+import com.tonydpadua.email.EmailService;
+import com.tonydpadua.email.MockEmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,11 @@ public class TestConfig {
         dbService.instantiateTestDatabase();
 
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new MockEmailService();
     }
 
 
