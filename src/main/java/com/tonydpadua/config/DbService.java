@@ -4,7 +4,9 @@ import com.tonydpadua.categoria.Categoria;
 import com.tonydpadua.categoria.CategoriaRepository;
 import com.tonydpadua.cidade.Cidade;
 import com.tonydpadua.cidade.CidadeRepository;
+import com.tonydpadua.cliente.Cliente;
 import com.tonydpadua.cliente.ClienteRepository;
+import com.tonydpadua.cliente.Perfil;
 import com.tonydpadua.cliente.TipoCliente;
 import com.tonydpadua.endereco.Endereco;
 import com.tonydpadua.endereco.EnderecoRepository;
@@ -18,6 +20,7 @@ import com.tonydpadua.pedido.PedidoRepository;
 import com.tonydpadua.produto.Produto;
 import com.tonydpadua.produto.ProdutoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -43,6 +46,8 @@ public class DbService {
     private PagamentoRepository pagamentoRepository;
 
     private ItemPedidoRepository itemPedidoRepository;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void instantiateTestDatabase() throws ParseException {
 
@@ -106,16 +111,22 @@ public class DbService {
         cidadeRepository.saveAll(Arrays.asList(ci1,ci2,ci3));
 
 
-        com.tonydpadua.cliente.Cliente cl1 = new com.tonydpadua.cliente.Cliente(null,"Maria","maria@gmail.com","5345696", TipoCliente.PESSOAFISICA);
+        Cliente cl1 = new Cliente(null,"Maria","grandeovelha@gmail.com","93174388490", TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
         cl1.getTelefones().addAll(Arrays.asList("34234235","233245"));
+
+        Cliente cl2 = new Cliente(null,"Ana","grandeovelha@gmail.com","56772740548", TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
+        cl2.getTelefones().addAll(Arrays.asList("54641684","5414841"));
+        cl2.addPerfil(Perfil.ADMIN);
 
         Endereco en1 = new Endereco(null,"Avenida Beira Rio","300","Apto 200","Jardim","23454857",cl1,ci2);
         Endereco en2 = new Endereco(null,"Avenida de Patos","300","Apto 200","Jardim","23454857",cl1,ci3);
+        Endereco en3 = new Endereco(null,"Avenida Epitacio Pessoa","300","Apto 200","Miramar","23454857",cl2,ci2);
 
         cl1.getEnderecos().addAll(Arrays.asList(en1,en2));
+        cl2.getEnderecos().addAll(Arrays.asList(en3));
 
-        clienteRepository.save(cl1);
-        enderecoRepository.saveAll(Arrays.asList(en1,en2));
+        clienteRepository.saveAll(Arrays.asList(cl1,cl2));
+        enderecoRepository.saveAll(Arrays.asList(en1,en2,en3));
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
