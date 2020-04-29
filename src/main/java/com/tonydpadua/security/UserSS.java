@@ -1,7 +1,6 @@
 package com.tonydpadua.security;
 
 import com.tonydpadua.cliente.Perfil;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +11,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
-
 public class UserSS implements UserDetails {
 
     private static final long serialVersionUID=1L;

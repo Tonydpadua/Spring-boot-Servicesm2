@@ -1,6 +1,7 @@
 package com.tonydpadua.config;
 
 import com.tonydpadua.security.JWTAuthenticationFilter;
+import com.tonydpadua.security.JWTAuthorizationFilter;
 import com.tonydpadua.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,18 +24,19 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+
     private Environment env;
 
-    @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
     private JWTUtil jwtUtil;
 
 
-    public SecurityConfig(Environment env){
+    public SecurityConfig(Environment env,UserDetailsService userDetailsService,JWTUtil jwtUtil){
         this.env=env;
+        this.userDetailsService=userDetailsService;
+        this.jwtUtil=jwtUtil;
+
     }
 
     private static final String[] PUBLIC_MATCHES={
@@ -59,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHES).permitAll()
                 .anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtUtil,userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

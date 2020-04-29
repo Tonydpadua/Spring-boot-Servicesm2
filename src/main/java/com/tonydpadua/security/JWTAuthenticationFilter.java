@@ -28,7 +28,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.jwtUtil = jwtUtil;
     }
 
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException {
@@ -68,7 +67,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     +"\"error\": \"Não Autorizado\", "
                     +"\"message\": \"Email ou senha inválidos\", "
                     +"\"path\": \"login\"}";
-
         }
     }
 
