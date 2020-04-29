@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum Perfil {
     ADMIN(1,"ROLE_ADMIN"),
-    CLIENTE(3,"ROLE_CLIENTE");
+    CLIENTE(2,"ROLE_CLIENTE");
 
     private int cod;
     private String descricao;
