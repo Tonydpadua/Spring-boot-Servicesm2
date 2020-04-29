@@ -4,8 +4,11 @@ import com.tonydpadua.categoria.Categoria;
 import com.tonydpadua.cidade.Cidade;
 import com.tonydpadua.endereco.Endereco;
 import com.tonydpadua.endereco.EnderecoRepository;
+import com.tonydpadua.exceptions.AuthorizationException;
 import com.tonydpadua.exceptions.DataIntegrityException;
 import com.tonydpadua.exceptions.ObjectNotFoundException;
+import com.tonydpadua.security.UserSS;
+import com.tonydpadua.security.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,10 @@ public class ClienteService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Cliente findById(Long id){
+        UserSS user = UserService.authenticated();
+        if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId()) ){
+            throw new AuthorizationException("Acesso negado");
+        }
         Optional<Cliente> obj = repo.findById(id);
         return obj.orElseThrow(()->new ObjectNotFoundException("Object não encontrado! Id: "+id));
     }

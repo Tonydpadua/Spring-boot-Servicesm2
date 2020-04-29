@@ -1,5 +1,6 @@
 package com.tonydpadua.email;
 
+import com.tonydpadua.cliente.Cliente;
 import com.tonydpadua.pedido.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +42,6 @@ public abstract class AbstractEmailService implements EmailService {
 
     @Override
     public void sendEmail(SimpleMailMessage msg) {
-
     }
 
     protected String htmlFromTemplatePedido(Pedido obj){
@@ -70,7 +70,21 @@ public abstract class AbstractEmailService implements EmailService {
         mmh.setSentDate(new Date(System.currentTimeMillis()));
         mmh.setText(htmlFromTemplatePedido(obj),true);
         return mimeMessage;
-
     }
 
+    @Override
+    public void sendNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = PrepareNewPasswordEmail(cliente,newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage PrepareNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(cliente.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Solicitação de nova senha");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: "+newPass);
+        return sm;
+    }
 }

@@ -1,7 +1,10 @@
 package com.tonydpadua.pedido;
 
+import com.tonydpadua.categoria.Categoria;
+import com.tonydpadua.cliente.Cliente;
 import com.tonydpadua.cliente.ClienteService;
 import com.tonydpadua.email.EmailService;
+import com.tonydpadua.exceptions.AuthorizationException;
 import com.tonydpadua.exceptions.ObjectNotFoundException;
 import com.tonydpadua.itempedido.ItemPedido;
 import com.tonydpadua.itempedido.ItemPedidoRepository;
@@ -10,7 +13,12 @@ import com.tonydpadua.pagamento.PagamentoComBoleto;
 import com.tonydpadua.pagamento.PagamentoRepository;
 import com.tonydpadua.pedido.boleto.BoletoService;
 import com.tonydpadua.produto.ProdutoService;
+import com.tonydpadua.security.UserSS;
+import com.tonydpadua.security.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +70,17 @@ public class PedidoService {
         itemPedidoRepository.saveAll(obj.getItens());
         emailService.sendOrderConfirmationHTMLEmail(obj);
         return obj;
+
+    }
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user==null){
+            throw new AuthorizationException("Acesso negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),orderBy);
+        Cliente cliente = clienteService.findById(user.getId());
+        return pedidoRepository.findByCliente(cliente,pageRequest);
 
     }
 
