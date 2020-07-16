@@ -3,7 +3,6 @@ package com.tonydpadua.config;
 import com.tonydpadua.security.JWTAuthenticationFilter;
 import com.tonydpadua.security.JWTAuthorizationFilter;
 import com.tonydpadua.security.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
